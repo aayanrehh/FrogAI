@@ -5,11 +5,7 @@ import "./components/components.css";
 import {
   Nav,
   Hero,
-  LogoMarquee,
-  BentoFeatures,
-  BeforeAfter,
   RibbitChat,
-  Pricing,
   Testimonials,
   FAQ,
   FinalCTA,
@@ -20,15 +16,10 @@ function App() {
   return (
     <>
       <div className="pond-bg" />
-      <div className="pond-blob" />
       <Nav />
       <main>
         <Hero />
-        <LogoMarquee />
-        <BeforeAfter />
         <RibbitChat />
-        <BentoFeatures />
-        <Pricing />
         <Testimonials />
         <FAQ />
         <FinalCTA />

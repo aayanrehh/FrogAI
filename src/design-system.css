@@ -1,62 +1,61 @@
 /* ============================================================================
-   FrogAI Design System — tokens & primitives
-   Method: surface-first (Decide/Learn landing), brand: pond + electric lime.
-   Authored with the claude-design methodology. No AI-slop defaults:
-   - display type is Space Grotesk (chosen, not Inter)
-   - single accent (lime) chosen for the brand, not indigo/violet
-   - bento + asymmetric composition, not centered icon-grid
-   - glass carries a real elevation + depth system
+   FrogAI Design System — tokens, reset & primitives
+   LIGHT PREMIUM theme. Warm off-white canvas, deep ink text,
+   electric-lime (#d4ff3f) as the single brand accent.
+   One source of truth — every component references these variables.
+   Inspired by premium SaaS-agency sites (family.co / Cluely / Corgi):
+   crisp lines, generous whitespace, restrained motion, no gamified neon.
    ========================================================================== */
 
 :root {
-  /* ---- Color: The Pond (dark canvas) ---- */
-  --pond-950: #050806;
-  --pond-900: #070b08;
-  --pond-850: #0a110c;
-  --pond-800: #0e1610;
-  --pond-700: #142019;
-  --pond-600: #1c2c22;
-  --ink: #f3faf4;
-  --ink-soft: rgba(243, 250, 244, 0.74);
-  --ink-mute: rgba(243, 250, 244, 0.5);
-  --ink-faint: rgba(243, 250, 244, 0.34);
+  /* ---- Canvas (warm paper) ---- */
+  --canvas: #f6f5f0;
+  --canvas-2: #efece4;
+  --surface: #ffffff;
+  --surface-2: #fbfbf8;
 
-  /* ---- Accent: Electric Lime (the only accent) ---- */
-  --lime: #d4ff3f;
+  /* ---- Ink (deep forest-ink) ---- */
+  --ink: #0e1410;
+  --ink-soft: rgba(14, 20, 16, 0.64);
+  --ink-mute: rgba(14, 20, 16, 0.46);
+  --ink-faint: rgba(14, 20, 16, 0.3);
+
+  /* ---- Accent: Electric Lime (the only accent, brand core) ---- */
+  --lime: #c9f23a;
   --lime-bright: #e6ff77;
   --lime-deep: #aef01f;
-  --lime-ink: #09140a;
-  --lime-soft: rgba(212, 255, 63, 0.12);
-  --lime-line: rgba(212, 255, 63, 0.34);
-  --lime-glow: rgba(212, 255, 63, 0.4);
+  --lime-ink: #0d160a;
+  --lime-soft: rgba(201, 242, 58, 0.16);
+  --lime-line: rgba(150, 190, 28, 0.42);
+  --lime-glow: rgba(201, 242, 58, 0.5);
 
-  /* ---- Surfaces & lines ---- */
-  --glass: rgba(255, 255, 255, 0.035);
-  --glass-2: rgba(255, 255, 255, 0.06);
-  --line: rgba(243, 250, 244, 0.1);
-  --line-soft: rgba(243, 250, 244, 0.06);
-  --line-strong: rgba(243, 250, 244, 0.16);
+  /* ---- Surfaces & lines (light) ---- */
+  --glass: rgba(255, 255, 255, 0.72);
+  --glass-2: rgba(255, 255, 255, 0.5);
+  --line: rgba(14, 20, 16, 0.1);
+  --line-soft: rgba(14, 20, 16, 0.06);
+  --line-strong: rgba(14, 20, 16, 0.16);
 
-  /* ---- Elevation ---- */
-  --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 18px 50px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 40px 120px rgba(0, 0, 0, 0.62);
-  --shadow-lime: 0 18px 60px rgba(212, 255, 63, 0.18);
+  /* ---- Elevation (soft, layered — premium on light) ---- */
+  --shadow-sm: 0 1px 2px rgba(16, 24, 18, 0.05);
+  --shadow-md: 0 18px 50px rgba(16, 24, 18, 0.1);
+  --shadow-lg: 0 40px 120px rgba(16, 24, 18, 0.16);
+  --shadow-lime: 0 18px 60px rgba(180, 220, 40, 0.34);
   --ring: 0 0 0 1px var(--line);
 
   /* ---- Type ---- */
-  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Sora", ui-sans-serif, system-ui, sans-serif;
   --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
 
-  /* ---- Radii ---- */
-  --r-sm: 10px;
-  --r-md: 16px;
-  --r-lg: 22px;
-  --r-xl: 30px;
+  /* ---- Radii (one cohesive scale) ---- */
+  --r-sm: 12px;
+  --r-md: 18px;
+  --r-lg: 24px;
+  --r-xl: 32px;
   --r-pill: 999px;
 
-  /* ---- Spacing scale ---- */
+  /* ---- Spacing scale (4px base) ---- */
   --s-1: 6px;
   --s-2: 10px;
   --s-3: 16px;
@@ -87,13 +86,14 @@
 }
 html {
   scroll-behavior: smooth;
-  background: var(--pond-900);
+  color-scheme: light;
+  background: var(--canvas);
   -webkit-text-size-adjust: 100%;
 }
 body {
   margin: 0;
   min-height: 100vh;
-  background: var(--pond-900);
+  background: var(--canvas);
   color: var(--ink);
   font-family: var(--font-body);
   font-size: 16px;
@@ -137,70 +137,39 @@ ul {
 
 /* ============================================================ Primitives == */
 
-/* Ambient pond background — fixed, layered depth */
+/* Ambient canvas — whisper-light, no gamified grid or neon blob */
 .pond-bg {
   position: fixed;
   inset: 0;
   z-index: -3;
   background:
-    radial-gradient(120% 80% at 50% -10%, rgba(212, 255, 63, 0.1), transparent 45%),
-    radial-gradient(80% 60% at 12% 8%, rgba(20, 48, 32, 0.7), transparent 60%),
-    radial-gradient(70% 60% at 92% 30%, rgba(14, 40, 26, 0.55), transparent 60%),
-    linear-gradient(180deg, var(--pond-900), var(--pond-950));
+    radial-gradient(70% 46% at 50% -8%, rgba(201, 242, 58, 0.18), transparent 60%),
+    radial-gradient(54% 38% at 88% 4%, rgba(14, 40, 26, 0.05), transparent 60%),
+    linear-gradient(180deg, var(--canvas), var(--canvas-2));
 }
 .pond-bg::before {
   position: absolute;
   inset: 0;
   content: "";
-  opacity: 0.4;
+  opacity: 0.5;
   background-image:
-    linear-gradient(rgba(243, 250, 244, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(243, 250, 244, 0.04) 1px, transparent 1px);
-  background-size: 64px 64px;
-  -webkit-mask-image: radial-gradient(circle at 50% 30%, black, transparent 78%);
-  mask-image: radial-gradient(circle at 50% 30%, black, transparent 78%);
-}
-/* slow drifting glow blob */
-.pond-blob {
-  position: fixed;
-  z-index: -2;
-  top: -10vw;
-  left: 50%;
-  width: 60vw;
-  height: 60vw;
-  max-width: 760px;
-  max-height: 760px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(212, 255, 63, 0.16), transparent 65%);
-  filter: blur(40px);
-  transform: translateX(-50%);
-  pointer-events: none;
-  animation: blob-drift 16s var(--ease-out) infinite alternate;
-}
-@keyframes blob-drift {
-  from {
-    transform: translateX(-58%) translateY(0) scale(1);
-  }
-  to {
-    transform: translateX(-42%) translateY(8vh) scale(1.12);
-  }
+    radial-gradient(rgba(14, 20, 16, 0.045) 1px, transparent 1.4px);
+  background-size: 26px 26px;
+  -webkit-mask-image: radial-gradient(120% 60% at 50% 0%, black, transparent 62%);
+  mask-image: radial-gradient(120% 60% at 50% 0%, black, transparent 62%);
 }
 
-/* Glass surface — real elevation system */
+/* Glass surface — soft elevation on light */
 .glass {
   border: 1px solid var(--line);
-  background:
-    linear-gradient(150deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.015)),
-    rgba(7, 11, 8, 0.55);
-  backdrop-filter: blur(20px) saturate(1.2);
-  -webkit-backdrop-filter: blur(20px) saturate(1.2);
+  background: var(--glass);
+  backdrop-filter: blur(18px) saturate(1.1);
+  -webkit-backdrop-filter: blur(18px) saturate(1.1);
   box-shadow: var(--shadow-md);
 }
 .glass-strong {
   border-color: var(--line-strong);
-  background:
-    linear-gradient(150deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02)),
-    rgba(10, 17, 12, 0.66);
+  background: rgba(255, 255, 255, 0.86);
 }
 
 /* Layout helpers */
@@ -212,8 +181,10 @@ ul {
 }
 .section {
   position: relative;
-  padding-block: clamp(72px, 10vw, 130px);
+  padding-block: clamp(76px, 10vw, 132px);
 }
+
+/* Shared eyebrow / kicker / heading language — used by EVERY section */
 .eyebrow {
   display: inline-flex;
   align-items: center;
@@ -222,15 +193,22 @@ ul {
   border: 1px solid var(--lime-line);
   border-radius: var(--r-pill);
   background: var(--lime-soft);
-  color: var(--lime);
+  color: #4a5a12;
   font-family: var(--font-mono);
   font-size: 0.72rem;
   font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
+.kicker {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
 
-/* Display headings */
+/* Display headings — fluid, cohesive scale */
 .display {
   font-family: var(--font-display);
   font-weight: 700;
@@ -239,13 +217,16 @@ ul {
   text-wrap: pretty;
 }
 .h1 {
-  font-size: clamp(2.9rem, 7.4vw, 6rem);
+  font-size: clamp(2.8rem, 7vw, 5.4rem);
+  font-weight: 800;
 }
 .h2 {
   font-size: clamp(2rem, 4.6vw, 3.6rem);
+  font-weight: 700;
 }
 .h3 {
   font-size: clamp(1.4rem, 2.6vw, 2rem);
+  font-weight: 700;
 }
 .lede {
   color: var(--ink-soft);
@@ -253,56 +234,37 @@ ul {
   line-height: 1.7;
 }
 .accent {
-  color: var(--lime);
+  color: #5d7412;
 }
 
-/* Liquid-glass utility (premium card treatment) */
-.liquid-glass {
-  background: rgba(255, 255, 255, 0.018);
-  background-blend-mode: luminosity;
-  backdrop-filter: blur(16px) saturate(1.2);
-  -webkit-backdrop-filter: blur(16px) saturate(1.2);
-  border: 1px solid var(--line);
-  box-shadow:
-    var(--shadow-md),
-    inset 0 1px 1px rgba(255, 255, 255, 0.08);
-  position: relative;
-  overflow: hidden;
+/* Section heading block — consistent rhythm across pages */
+.section-head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  max-width: var(--maxw-narrow);
+  margin-bottom: clamp(36px, 5vw, 56px);
 }
-.liquid-glass::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1.4px;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.4) 0%,
-    rgba(255, 255, 255, 0.12) 22%,
-    rgba(255, 255, 255, 0) 42%,
-    rgba(255, 255, 255, 0) 60%,
-    rgba(255, 255, 255, 0.12) 80%,
-    rgba(255, 255, 255, 0.4) 100%
-  );
-  -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
+.section-head.center {
+  align-items: center;
+  text-align: center;
+  margin-inline: auto;
+}
+.section-head .lede {
+  margin-top: var(--s-1);
 }
 
 /* Animated shiny gradient word (premium headline accent) */
 .shiny {
   background-image: linear-gradient(
     100deg,
-    #6f8a2a 0%,
+    #8aa31e 0%,
     #aef01f 18%,
-    #e6ff77 38%,
-    #d4ff3f 50%,
-    #aef01f 62%,
-    #6f8a2a 82%,
-    #6f8a2a 100%
+    #c9f23a 38%,
+    #e6ff77 50%,
+    #c9f23a 62%,
+    #8aa31e 82%,
+    #8aa31e 100%
   );
   background-size: 220% auto;
   -webkit-background-clip: text;
@@ -319,24 +281,30 @@ ul {
     background-position: 120% center;
   }
 }
+
+/* ---- Buttons: the single canonical button system ---- */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
   min-height: 52px;
-  padding: 0 22px;
+  padding: 0 24px;
   border: 1px solid transparent;
   border-radius: var(--r-pill);
+  font-family: var(--font-body);
   font-weight: 700;
   font-size: 0.96rem;
   letter-spacing: 0.01em;
   cursor: pointer;
   white-space: nowrap;
+  text-decoration: none;
   transition:
     transform var(--t-fast) var(--ease-out),
     box-shadow var(--t-fast) var(--ease-out),
-    background var(--t-fast) var(--ease-out);
+    background var(--t-fast) var(--ease-out),
+    border-color var(--t-fast) var(--ease-out),
+    color var(--t-fast) var(--ease-out);
   will-change: transform;
 }
 .btn-primary {
@@ -346,7 +314,7 @@ ul {
 }
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 22px 70px rgba(212, 255, 63, 0.32);
+  box-shadow: 0 22px 70px rgba(180, 220, 40, 0.42);
 }
 .btn-ghost {
   border-color: var(--line-strong);
@@ -357,25 +325,21 @@ ul {
 .btn-ghost:hover {
   transform: translateY(-2px);
   border-color: var(--lime-line);
-  color: var(--lime);
+  color: #4a5a12;
+}
+.btn-sm {
+  min-height: 44px;
+  padding: 0 18px;
+  font-size: 0.9rem;
 }
 .btn:focus-visible {
-  outline: 2px solid var(--lime);
+  outline: 2px solid var(--lime-deep);
   outline-offset: 3px;
 }
 
 /* Reveal animation wrapper (used by framer Reveal) */
 .reveal {
   will-change: transform, opacity, filter;
-}
-
-/* Kicker / mono label */
-.kicker {
-  font-family: var(--font-mono);
-  font-size: 0.74rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--ink-mute);
 }
 
 /* Reduced motion */
