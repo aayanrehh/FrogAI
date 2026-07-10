@@ -1,0 +1,329 @@
+/* ============================================================================
+   FrogAI Design System — tokens & primitives
+   Method: surface-first (Decide/Learn landing), brand: pond + electric lime.
+   Authored with the claude-design methodology. No AI-slop defaults:
+   - display type is Space Grotesk (chosen, not Inter)
+   - single accent (lime) chosen for the brand, not indigo/violet
+   - bento + asymmetric composition, not centered icon-grid
+   - glass carries a real elevation + depth system
+   ========================================================================== */
+
+:root {
+  /* ---- Color: The Pond (dark canvas) ---- */
+  --pond-950: #050806;
+  --pond-900: #070b08;
+  --pond-850: #0a110c;
+  --pond-800: #0e1610;
+  --pond-700: #142019;
+  --pond-600: #1c2c22;
+  --ink: #f3faf4;
+  --ink-soft: rgba(243, 250, 244, 0.74);
+  --ink-mute: rgba(243, 250, 244, 0.5);
+  --ink-faint: rgba(243, 250, 244, 0.34);
+
+  /* ---- Accent: Electric Lime (the only accent) ---- */
+  --lime: #d4ff3f;
+  --lime-bright: #e6ff77;
+  --lime-deep: #aef01f;
+  --lime-ink: #09140a;
+  --lime-soft: rgba(212, 255, 63, 0.12);
+  --lime-line: rgba(212, 255, 63, 0.34);
+  --lime-glow: rgba(212, 255, 63, 0.4);
+
+  /* ---- Surfaces & lines ---- */
+  --glass: rgba(255, 255, 255, 0.035);
+  --glass-2: rgba(255, 255, 255, 0.06);
+  --line: rgba(243, 250, 244, 0.1);
+  --line-soft: rgba(243, 250, 244, 0.06);
+  --line-strong: rgba(243, 250, 244, 0.16);
+
+  /* ---- Elevation ---- */
+  --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 18px 50px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 40px 120px rgba(0, 0, 0, 0.62);
+  --shadow-lime: 0 18px 60px rgba(212, 255, 63, 0.18);
+  --ring: 0 0 0 1px var(--line);
+
+  /* ---- Type ---- */
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  /* ---- Radii ---- */
+  --r-sm: 10px;
+  --r-md: 16px;
+  --r-lg: 22px;
+  --r-xl: 30px;
+  --r-pill: 999px;
+
+  /* ---- Spacing scale ---- */
+  --s-1: 6px;
+  --s-2: 10px;
+  --s-3: 16px;
+  --s-4: 24px;
+  --s-5: 34px;
+  --s-6: 48px;
+  --s-7: 72px;
+  --s-8: 110px;
+
+  /* ---- Layout ---- */
+  --maxw: 1200px;
+  --maxw-narrow: 820px;
+  --gutter: clamp(20px, 5vw, 44px);
+
+  /* ---- Motion ---- */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --t-fast: 0.22s;
+  --t-med: 0.5s;
+  --t-slow: 0.9s;
+}
+
+/* ============================================================ Reset ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+  background: var(--pond-900);
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--pond-900);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+body::selection {
+  background: var(--lime);
+  color: var(--lime-ink);
+}
+h1,
+h2,
+h3,
+h4,
+p,
+figure {
+  margin: 0;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+button,
+input,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+img {
+  display: block;
+  max-width: 100%;
+}
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ============================================================ Primitives == */
+
+/* Ambient pond background — fixed, layered depth */
+.pond-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+  background:
+    radial-gradient(120% 80% at 50% -10%, rgba(212, 255, 63, 0.1), transparent 45%),
+    radial-gradient(80% 60% at 12% 8%, rgba(20, 48, 32, 0.7), transparent 60%),
+    radial-gradient(70% 60% at 92% 30%, rgba(14, 40, 26, 0.55), transparent 60%),
+    linear-gradient(180deg, var(--pond-900), var(--pond-950));
+}
+.pond-bg::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  opacity: 0.4;
+  background-image:
+    linear-gradient(rgba(243, 250, 244, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(243, 250, 244, 0.04) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(circle at 50% 30%, black, transparent 78%);
+  mask-image: radial-gradient(circle at 50% 30%, black, transparent 78%);
+}
+/* slow drifting glow blob */
+.pond-blob {
+  position: fixed;
+  z-index: -2;
+  top: -10vw;
+  left: 50%;
+  width: 60vw;
+  height: 60vw;
+  max-width: 760px;
+  max-height: 760px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212, 255, 63, 0.16), transparent 65%);
+  filter: blur(40px);
+  transform: translateX(-50%);
+  pointer-events: none;
+  animation: blob-drift 16s var(--ease-out) infinite alternate;
+}
+@keyframes blob-drift {
+  from {
+    transform: translateX(-58%) translateY(0) scale(1);
+  }
+  to {
+    transform: translateX(-42%) translateY(8vh) scale(1.12);
+  }
+}
+
+/* Glass surface — real elevation system */
+.glass {
+  border: 1px solid var(--line);
+  background:
+    linear-gradient(150deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.015)),
+    rgba(7, 11, 8, 0.55);
+  backdrop-filter: blur(20px) saturate(1.2);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
+  box-shadow: var(--shadow-md);
+}
+.glass-strong {
+  border-color: var(--line-strong);
+  background:
+    linear-gradient(150deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02)),
+    rgba(10, 17, 12, 0.66);
+}
+
+/* Layout helpers */
+.container {
+  width: 100%;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding-inline: var(--gutter);
+}
+.section {
+  position: relative;
+  padding-block: clamp(72px, 10vw, 130px);
+}
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 13px;
+  border: 1px solid var(--lime-line);
+  border-radius: var(--r-pill);
+  background: var(--lime-soft);
+  color: var(--lime);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* Display headings */
+.display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  text-wrap: pretty;
+}
+.h1 {
+  font-size: clamp(2.9rem, 7.4vw, 6rem);
+}
+.h2 {
+  font-size: clamp(2rem, 4.6vw, 3.6rem);
+}
+.h3 {
+  font-size: clamp(1.4rem, 2.6vw, 2rem);
+}
+.lede {
+  color: var(--ink-soft);
+  font-size: clamp(1rem, 1.5vw, 1.18rem);
+  line-height: 1.7;
+}
+.accent {
+  color: var(--lime);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 0 22px;
+  border: 1px solid transparent;
+  border-radius: var(--r-pill);
+  font-weight: 700;
+  font-size: 0.96rem;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    transform var(--t-fast) var(--ease-out),
+    box-shadow var(--t-fast) var(--ease-out),
+    background var(--t-fast) var(--ease-out);
+  will-change: transform;
+}
+.btn-primary {
+  background: var(--lime);
+  color: var(--lime-ink);
+  box-shadow: var(--shadow-lime);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 22px 70px rgba(212, 255, 63, 0.32);
+}
+.btn-ghost {
+  border-color: var(--line-strong);
+  background: var(--glass);
+  color: var(--ink);
+  backdrop-filter: blur(12px);
+}
+.btn-ghost:hover {
+  transform: translateY(-2px);
+  border-color: var(--lime-line);
+  color: var(--lime);
+}
+.btn:focus-visible {
+  outline: 2px solid var(--lime);
+  outline-offset: 3px;
+}
+
+/* Reveal animation wrapper (used by framer Reveal) */
+.reveal {
+  will-change: transform, opacity, filter;
+}
+
+/* Kicker / mono label */
+.kicker {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
