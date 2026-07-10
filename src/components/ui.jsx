@@ -5,6 +5,8 @@ import {
   ArrowUpRight,
   Check,
   Play,
+  Menu,
+  X,
   Sparkles,
   Wand2,
   Film,
@@ -32,6 +34,7 @@ const navLinks = [
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 30);
     onScroll();
@@ -42,24 +45,57 @@ export function Nav() {
   return (
     <motion.header
       className={`nav ${scrolled ? "scrolled" : ""}`}
-      initial={{ y: -80, opacity: 0 }}
+      initial={{ y: -24, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.7, ease, delay: 0.1 }}
+      transition={{ duration: 0.6, ease, delay: 0.1 }}
     >
       <a href="#top" className="brand" aria-label="FrogAI home">
-        <FrogMark size={32} />
+        <FrogMark size={30} />
         <span>FrogAI</span>
       </a>
       <nav className="nav-links">
-        {navLinks.map((l) => (
-          <a key={l.href} href={l.href}>
+        {navLinks.map((l, i) => (
+          <motion.a
+            key={l.href}
+            href={l.href}
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease, delay: 0.15 + i * 0.06 }}
+          >
             {l.label}
-          </a>
+          </motion.a>
         ))}
       </nav>
-      <MagneticButton href="#pricing" variant="primary" className="nav-cta">
-        Book a demo
-      </MagneticButton>
+      <div className="nav-right">
+        <MagneticButton href="#pricing" variant="primary" className="nav-cta">
+          Book a demo
+        </MagneticButton>
+        <button
+          className="nav-burger"
+          aria-label="Toggle menu"
+          aria-expanded={open}
+          onClick={() => setOpen((o) => !o)}
+        >
+          {open ? <X size={20} /> : <Menu size={20} />}
+        </button>
+      </div>
+      {open && (
+        <motion.div
+          className="nav-mobile"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, ease }}
+        >
+          {navLinks.map((l) => (
+            <a key={l.href} href={l.href} onClick={() => setOpen(false)}>
+              {l.label}
+            </a>
+          ))}
+          <a href="#pricing" onClick={() => setOpen(false)}>
+            Book a demo
+          </a>
+        </motion.div>
+      )}
     </motion.header>
   );
 }
@@ -79,7 +115,7 @@ export function Hero() {
             <h1 className="display h1 hero-title">
               Leap into cinematic listings.
               <br />
-              <span className="accent">Ribbit</span> back leads in seconds.
+              <span className="shiny">Ribbit</span> back leads in seconds.
             </h1>
           </Reveal>
           <Reveal delay={0.14}>
@@ -136,50 +172,97 @@ function HeroVisual() {
 
   return (
     <motion.div
-      className="hero-visual glass-strong"
+      className="hero-visual liquid-glass"
       initial={{ opacity: 0, y: 40, rotateX: 8 }}
       animate={{ opacity: 1, y: 0, rotateX: 0 }}
       transition={{ duration: 1, ease, delay: 0.2 }}
       style={{ transformPerspective: 1000 }}
     >
-      <div className="hv-top">
-        <span className="hv-dot" />
-        <span className="kicker">Listing Launch · 18 Harbor View</span>
+      <div className="hv-topbar">
+        <span className="hv-lights">
+          <i style={{ background: "#ff5f57" }} />
+          <i style={{ background: "#febc2e" }} />
+          <i style={{ background: "#28c840" }} />
+        </span>
+        <span className="hv-title">FrogAI — Listing Launch</span>
         <span className="hv-live">● LIVE</span>
       </div>
 
-      <div className="hv-stage">
-        <button
-          className={`hv-play ${playing ? "is-playing" : ""}`}
-          onClick={() => setPlaying((p) => !p)}
-          aria-label="Preview listing video"
-        >
-          {playing ? <PauseGlyph /> : <Play size={26} fill="currentColor" />}
-        </button>
-        {playing && (
-          <div className="hv-progress">
-            <motion.span
-              initial={{ width: "0%" }}
-              animate={{ width: "100%" }}
-              transition={{ duration: 6, ease: "linear" }}
-            />
+      <div className="hv-body">
+        <div className="hv-side">
+          <div className="hv-compose">
+            <Sparkles size={13} /> Compose with Leap
           </div>
-        )}
-        <span className="hv-badge">
-          <Wand2 size={13} /> AI camera path
-        </span>
-        <div className="hv-scan" />
-      </div>
+          <div className="hv-navitem active">
+            <Film size={14} /> Cinematic cuts <em>3</em>
+          </div>
+          <div className="hv-navitem">
+            <MessageSquareText size={14} /> Lead replies <em>12</em>
+          </div>
+          <div className="hv-navitem">
+            <CalendarCheck size={14} /> Tours booked <em>5</em>
+          </div>
+          <div className="hv-navitem">
+            <LineChart size={14} /> Performance
+          </div>
+        </div>
 
-      <div className="hv-foot">
-        <div className="hv-chip">
-          <Film size={14} /> Cinematic cut
+        <div className="hv-stage">
+          <span className="hv-badge">
+            <Wand2 size={13} /> AI camera path
+          </span>
+          <button
+            className={`hv-play ${playing ? "is-playing" : ""}`}
+            onClick={() => setPlaying((p) => !p)}
+            aria-label="Preview listing video"
+          >
+            {playing ? <PauseGlyph /> : <Play size={26} fill="currentColor" />}
+          </button>
+          {playing && (
+            <div className="hv-progress">
+              <motion.span
+                initial={{ width: "0%" }}
+                animate={{ width: "100%" }}
+                transition={{ duration: 6, ease: "linear" }}
+              />
+            </div>
+          )}
+          <div className="hv-scan" />
+          <div className="hv-foot">
+            <div className="hv-chip">
+              <Film size={14} /> Cinematic cut
+            </div>
+            <div className="hv-chip">
+              <Sparkles size={14} /> Luxury grade
+            </div>
+            <div className="hv-chip">
+              <ArrowUpRight size={14} /> Social-ready
+            </div>
+          </div>
         </div>
-        <div className="hv-chip">
-          <Sparkles size={14} /> Luxury grade
-        </div>
-        <div className="hv-chip">
-          <ArrowUpRight size={14} /> Social-ready
+
+        <div className="hv-reader">
+          <div className="hv-rhead">
+            <strong>18 Harbor View</strong>
+            <span>Leap · 4K</span>
+          </div>
+          <div className="hv-summary">
+            <Sparkles size={13} className="hv-summary-ic" />
+            <div>
+              <b>Summary by Leap</b>
+              <p>
+                Rebuilt the flat interior into a cinematic 4K tour — depth, motion, and a
+                luxury grade applied in one pass.
+              </p>
+            </div>
+          </div>
+          <p className="hv-line">Your listing just dropped a film-grade asset.</p>
+          <p className="hv-line hv-muted">
+            Ready to publish across Instagram, YouTube, and the MLS.
+          </p>
+          <div className="hv-pill">
+            <Play size={12} /> harbor-view-4k.mp4
+          </div>
         </div>
       </div>
     </motion.div>

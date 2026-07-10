@@ -256,7 +256,69 @@ ul {
   color: var(--lime);
 }
 
-/* Buttons */
+/* Liquid-glass utility (premium card treatment) */
+.liquid-glass {
+  background: rgba(255, 255, 255, 0.018);
+  background-blend-mode: luminosity;
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  border: 1px solid var(--line);
+  box-shadow:
+    var(--shadow-md),
+    inset 0 1px 1px rgba(255, 255, 255, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+.liquid-glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.4px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(255, 255, 255, 0.12) 22%,
+    rgba(255, 255, 255, 0) 42%,
+    rgba(255, 255, 255, 0) 60%,
+    rgba(255, 255, 255, 0.12) 80%,
+    rgba(255, 255, 255, 0.4) 100%
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Animated shiny gradient word (premium headline accent) */
+.shiny {
+  background-image: linear-gradient(
+    100deg,
+    #6f8a2a 0%,
+    #aef01f 18%,
+    #e6ff77 38%,
+    #d4ff3f 50%,
+    #aef01f 62%,
+    #6f8a2a 82%,
+    #6f8a2a 100%
+  );
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: shiny 6s linear infinite;
+}
+@keyframes shiny {
+  0% {
+    background-position: -120% center;
+  }
+  100% {
+    background-position: 120% center;
+  }
+}
 .btn {
   display: inline-flex;
   align-items: center;
