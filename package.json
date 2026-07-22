@@ -1,21 +1,29 @@
 {
-  "name": "frogai-landing",
+  "name": "frogai-web",
   "private": true,
-  "version": "1.0.0",
+  "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --host 127.0.0.1",
-    "build": "vite build",
-    "preview": "vite preview --host 127.0.0.1"
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "oxlint src",
+    "preview": "vite preview"
   },
   "dependencies": {
-    "@vitejs/plugin-react": "^4.3.4",
-    "vite": "^6.0.7",
-    "typescript": "^5.7.2",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "framer-motion": "^11.15.0",
-    "lucide-react": "^0.468.0"
+    "@21st-dev/cli": "^1.7.2",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^24.13.2",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.3",
+    "oxlint": "^1.71.0",
+    "postcss": "^8.5.20",
+    "tailwindcss": "^4.3.3",
+    "typescript": "~6.0.2",
+    "vite": "^8.1.1"
+  }
 }
